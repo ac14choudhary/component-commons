@@ -1,0 +1,470 @@
+/* Values from the hero of vercel.com/backends: a page with an app window on it, its corner
+   turned up over a blueprint of the same app. */
+
+.frame {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 144px 0 96px;
+  background: #fafafa;
+}
+
+.frame[data-theme="dark"] {
+  background: #000;
+}
+
+/* The page follows the visitor's system theme, as vercel.com does. */
+@media (prefers-color-scheme: dark) {
+  .frame[data-theme="light"] {
+    display: none;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .frame[data-theme="dark"] {
+    display: none;
+  }
+}
+
+/* The page's own container, which the card's insets query. */
+.page {
+  container-type: inline-size;
+  box-sizing: border-box;
+  max-width: 1448px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+  align-items: center;
+}
+
+.slot {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+@container (min-width: 961px) {
+  .slot {
+    grid-column: 7 / 13;
+  }
+}
+
+/* Room above and to the left for the page as it turns over. */
+/* The docs pane clips, and the turned-over corner rises above the card (131px on a 926px card,
+   none under 313px) and reaches left a twentieth of its width. The padding grows with the
+   pane to keep it in view, without leaving a band of empty space on a phone. */
+.preview {
+  container-type: inline-size;
+  box-sizing: border-box;
+  padding: clamp(48px, 37% - 112px, 136px) clamp(24px, 6%, 48px) 48px;
+  background: #000;
+}
+
+.preview[data-theme="light"] {
+  background: #fafafa;
+}
+
+.root {
+  --pp-page: #000;
+  --pp-window: #0a0a0a;
+  --pp-text: #ededed;
+  --pp-text-quiet: #a1a1a1;
+  --pp-fill: #1a1a1a;
+  --pp-line: rgb(255 255 255 / 0.14);
+  --pp-line-hover: rgb(255 255 255 / 0.24);
+  --pp-window-shadow: 0 1px 2px rgb(0 0 0 / 0.16);
+  --pp-avatar-from: #52a8ff;
+  --pp-avatar-to: #0072f5;
+  --pp-plan-from: #0072f5;
+  --pp-plan-to: #0062d1;
+  --pp-plan-fill: rgb(0 144 255 / 0.5);
+  --pp-label-fill: rgb(0 144 255 / 0.8);
+  --pp-peel-paper: #292929;
+  --pp-peel-shade: #1f1f1f;
+  --pp-peel-highlight: #2e2e2e;
+  --pp-peel-crease: #1a1a1a;
+  --pp-focus: #52a8ff;
+  --app-inset: 24px;
+  --callout-shift: 12%;
+  --daemon-shift: -12%;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 432px;
+  border-radius: 4px;
+  color: var(--pp-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  font-feature-settings: "calt" 0, "rlig" 1, "ss11" 1;
+  text-align: left;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.root[data-theme="light"] {
+  --pp-page: #fafafa;
+  --pp-window: #fff;
+  --pp-text: #171717;
+  --pp-text-quiet: #4d4d4d;
+  --pp-fill: #f2f2f2;
+  --pp-line: rgb(0 0 0 / 0.08);
+  --pp-line-hover: rgb(0 0 0 / 0.21);
+  --pp-window-shadow: 0 2px 2px rgb(0 0 0 / 0.04);
+  --pp-avatar-from: #e0f0ff;
+  --pp-avatar-to: #99ceff;
+  --pp-plan-from: #52aeff;
+  --pp-plan-to: #0072f5;
+  --pp-plan-fill: rgb(82 174 255 / 0.5);
+  --pp-label-fill: rgb(82 174 255 / 0.8);
+  --pp-peel-paper: #fff;
+  --pp-peel-shade: #ebebeb;
+  --pp-peel-highlight: #fff;
+  --pp-peel-crease: #ebebeb;
+  --pp-focus: #0072f5;
+}
+
+/* Like the original, the insets follow the page's width, not the card's. */
+@container (min-width: 601px) {
+  .root {
+    --app-inset: 48px;
+  }
+}
+
+@container (min-width: 961px) {
+  .root {
+    --callout-shift: 0%;
+    --daemon-shift: 0%;
+  }
+}
+
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
+.root :where(p) {
+  margin: 0;
+}
+
+.root svg {
+  display: block;
+}
+
+/* The card's edge, drawn above the page and under the turned-up corner. */
+.root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  border: 1px solid var(--pp-line);
+  border-radius: inherit;
+  pointer-events: none;
+  transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.root[data-open="false"]:hover::after {
+  border-color: var(--pp-line-hover);
+}
+
+.layers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.under,
+.top {
+  position: absolute;
+  inset: 0;
+}
+
+.root[data-moving] .top {
+  will-change: clip-path;
+}
+
+.blueprint {
+  width: 100%;
+  height: 100%;
+  padding: var(--app-inset);
+  border-radius: 5px 5px 0 5px;
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--pp-plan-from), var(--pp-plan-to) 160%);
+  background-size:
+    var(--app-inset) var(--app-inset),
+    var(--app-inset) var(--app-inset),
+    100% 100%;
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.18),
+    inset 0 0 24px rgb(0 0 0 / 0.14);
+}
+
+.paper {
+  width: 100%;
+  height: 100%;
+  padding: var(--app-inset);
+  background: var(--pp-page);
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* The app window; .plan draws it in outline on the blueprint. */
+.window {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--pp-line);
+  border-radius: 12px;
+  background: var(--pp-window);
+  box-shadow: var(--pp-window-shadow);
+  color: var(--pp-text);
+}
+
+.side {
+  display: flex;
+  width: 34%;
+  flex-shrink: 0;
+  flex-direction: column;
+  border-right: 1px solid var(--pp-line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 30% 30%, var(--pp-avatar-from), var(--pp-avatar-to));
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+}
+
+.navItem {
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: var(--pp-text-quiet);
+}
+
+.navItem[data-current] {
+  background: var(--pp-fill);
+  color: var(--pp-text);
+}
+
+.chat {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.question {
+  max-width: 85%;
+  align-self: flex-end;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--pp-fill);
+}
+
+.answer {
+  max-width: 95%;
+  margin-top: 24px;
+  color: var(--pp-text-quiet);
+}
+
+.composer {
+  display: flex;
+  margin-top: auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px 8px 20px;
+  border: 1px solid var(--pp-line);
+  border-radius: 9999px;
+}
+
+.placeholder {
+  color: var(--pp-text-quiet);
+}
+
+.send {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--pp-fill);
+}
+
+.plan {
+  border-color: rgb(255 255 255 / 0.4);
+  background: var(--pp-plan-fill);
+  box-shadow: none;
+  color: #fff;
+}
+
+.plan .side,
+.plan .composer {
+  border-color: rgb(255 255 255 / 0.4);
+}
+
+.plan .avatar {
+  background: #fff;
+}
+
+.plan .navItem,
+.plan .placeholder {
+  color: rgb(255 255 255 / 0.8);
+}
+
+.plan .navItem[data-current],
+.plan .question {
+  background: rgb(255 255 255 / 0.25);
+  color: #fff;
+}
+
+.plan .answer {
+  color: rgb(255 255 255 / 0.9);
+}
+
+.plan .send {
+  border: 1px solid rgb(255 255 255 / 0.4);
+  background: none;
+}
+
+/* The backend's parts, floating on the blueprint while the card is on screen. */
+.callouts {
+  position: absolute;
+  inset: 0;
+  color: #fff;
+  pointer-events: none;
+}
+
+.callout {
+  position: absolute;
+  display: flex;
+  height: 48px;
+  width: max-content;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  border: 1px solid rgb(255 255 255 / 0.4);
+  border-radius: 8px;
+  background: var(--pp-label-fill);
+  font-family: var(--pp-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 16px;
+  line-height: 20px;
+  animation: float 2s ease-in-out infinite paused;
+}
+
+.root[data-active] .callout {
+  animation-play-state: running;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* The turned-up corner. Its box reaches up and left, so the turning page can pass the card's
+   edge and keep its shadow. */
+.flapClip {
+  position: absolute;
+  top: -384px;
+  right: 0;
+  bottom: 0;
+  left: -384px;
+  z-index: 20;
+  overflow: clip;
+  filter: drop-shadow(4px 6px 10px rgb(0 0 0 / 0.16));
+  pointer-events: none;
+}
+
+.flap {
+  position: absolute;
+  top: 384px;
+  right: 0;
+  bottom: 0;
+  left: 384px;
+  border-radius: 4px;
+  transform-origin: bottom right;
+}
+
+.root[data-moving] .flap {
+  will-change: clip-path, transform;
+}
+
+.handle {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  touch-action: none;
+  user-select: none;
+}
+
+.handle[data-cursor="grab"] {
+  cursor: grab;
+}
+
+.handle[data-cursor="grabbing"] {
+  cursor: grabbing;
+}
+
+.handle:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--pp-window),
+    0 0 0 4px var(--pp-focus);
+}
+
+/* Forced colours drop shadows; a transparent outline shows in the system's colour instead. */
+@media (forced-colors: active) {
+  .handle:focus-visible {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .callout {
+    animation: none;
+  }
+}

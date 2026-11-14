@@ -1,0 +1,245 @@
+.frame { background: #fdfdfd; }
+.frame[data-surface="dark"] { background: #131413; }
+
+.root {
+  --ink: #171917;
+  --quiet: #626662;
+  --card: #fff;
+  --border: #e7e8e7;
+  --panel-border: #e6e8e6;
+  --field: #f6f7f6;
+  --tile-ink: #707772;
+  --tile-active: #f5f6f5;
+  --active-border: #dce2dd;
+  --accent: #168858;
+  --guide: rgb(77 87 80 / 17%);
+  --shadow: rgb(0 0 0 / 8%);
+  container-type: inline-size;
+  border-top: 1px solid var(--border);
+  color: var(--ink);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+}
+
+.root[data-theme="dark"] {
+  --ink: #eeefee;
+  --quiet: #9a9e9b;
+  --card: #181a19;
+  --border: #282a29;
+  --panel-border: #282a29;
+  --field: #1e201f;
+  --tile-ink: #767b77;
+  --tile-active: #202321;
+  --active-border: #303431;
+  --accent: #3ecf8e;
+  --guide: rgb(158 165 160 / 14%);
+  --shadow: rgb(0 0 0 / 13%);
+}
+
+.container {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding: 64px 24px;
+}
+
+.header {
+  display: grid;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 32px;
+}
+
+.header h2 {
+  margin: 0;
+  color: var(--quiet);
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: -.04em;
+}
+
+.header h2 span { display: block; color: var(--ink); font-weight: 500; }
+
+.header p, .caption p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--quiet);
+  font-weight: 400;
+}
+
+.cards { display: grid; gap: 12px; }
+
+.card {
+  overflow: hidden;
+  min-width: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+}
+
+.caption {
+  display: grid;
+  gap: 4px;
+  padding: 20px 24px;
+}
+
+.caption h3 {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+
+.providerArt, .formArt, .shieldArt {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 320px;
+  overflow: hidden;
+  user-select: none;
+}
+
+.providerArt, .formArt { pointer-events: none; }
+.providerArt { mask-image: radial-gradient(70% 70%, #000 30%, transparent 75%); }
+
+.providerGrid {
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(13, 48px);
+  gap: 10px;
+  transition: transform 1s ease-in-out;
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  height: 48px;
+  border: 1px solid var(--panel-border);
+  border-radius: 11px;
+  background: var(--card);
+  color: var(--tile-ink);
+  transition: background-color 1s ease-in-out, border-color 1s ease-in-out, scale 1s ease-in-out;
+}
+
+.tile svg { display: block; width: 22px; height: 22px; opacity: .62; transition: color 1s, opacity 1s; }
+.tile[data-highlight="true"] { scale: 1.1; border-color: var(--active-border); background: var(--tile-active); }
+.tile[data-highlight="true"] svg { color: var(--accent); opacity: 1; }
+
+.formArt {
+  mask-image: linear-gradient(transparent, #000 15% 65%, transparent),
+    linear-gradient(to right, transparent, #000 20% 80%, transparent);
+  mask-composite: intersect;
+}
+
+.formCollage {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 180px 220px 180px;
+  gap: 12px;
+  inset-block-start: 6px;
+  width: 604px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--quiet);
+}
+
+.sideForms, .centerForms { display: grid; align-content: start; gap: 12px; }
+.sideForms { padding-top: 4px; }
+.sideForms:last-child { padding-top: 12px; }
+
+.mockPanel {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  background: var(--card);
+}
+
+.mockPanel strong { display: block; color: var(--ink); font-weight: 500; }
+.mockPanel small { font-size: 9px; color: var(--accent); }
+.sideForms .mockPanel { gap: 12px; }
+.sideForms:first-child .mockPanel:first-child { min-height: 207px; }
+.sideForms:last-child .mockPanel:first-child { min-height: 110px; }
+.sideForms:last-child .mockField { height: 40px; }
+
+.signup {
+  justify-items: center;
+  gap: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 1px 3px var(--shadow);
+}
+
+.signup strong { font-size: 12px; line-height: 16px; margin-bottom: 2px; }
+.signup div > span { font-size: 10px; }
+
+.accountMark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 11px;
+  color: var(--accent);
+  background: var(--ink);
+}
+
+.mockActions { display: grid; gap: 6px; width: 100%; }
+.mockField, .mockActions span, .mockSubmit {
+  display: grid;
+  align-items: center;
+  height: 24px;
+  padding-inline: 7px;
+  border: 1px solid var(--panel-border);
+  border-radius: 5px;
+  background: var(--field);
+}
+
+.mockActions span { height: 28px; }
+.reset { gap: 8px; }
+.reset strong { text-align: center; }
+.reset .mockField { margin-top: 4px; letter-spacing: 1px; }
+.mockSubmit { text-align: center; background: var(--ink); color: var(--card); }
+.session { font-family: ui-monospace, monospace; }
+
+.shieldArt { mask-image: radial-gradient(85% 85%, #000 30%, transparent 75%); }
+.shieldArt svg { display: block; position: absolute; pointer-events: none; }
+.guides { width: calc(100% + 128px); height: calc(100% + 128px); color: var(--guide); }
+.shield { width: 176px; height: 176px; color: var(--accent); }
+.shieldGlow, .shieldPixels { opacity: 0; transition: opacity 500ms ease; }
+.shieldGlow { color: var(--accent); }
+.shieldPixels path { animation: pixels 1.8s ease-in-out infinite alternate paused; }
+
+.shieldArt:hover .shieldGlow { opacity: .17; }
+.shieldArt:hover .shieldPixels { opacity: 1; }
+.shieldArt:hover .shieldPixels path { animation-play-state: running; }
+
+@keyframes pixels {
+  0% { opacity: .22; }
+  44% { opacity: .98; }
+  72% { opacity: .66; }
+  100% { opacity: 1; }
+}
+
+@container (min-width: 768px) {
+  .container { padding-block: 72px; }
+  .header { margin-bottom: 64px; }
+  .header h2 { font-size: 33px; line-height: 1.15; letter-spacing: -.02em; }
+  .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@container (min-width: 1024px) {
+  .container { padding: 96px 48px; }
+  .header { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@container (min-width: 1280px) {
+  .container { padding-inline: 96px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .providerGrid, .tile, .tile svg, .shieldGlow, .shieldPixels { transition: none; }
+  .shieldPixels path { animation: none; }
+}

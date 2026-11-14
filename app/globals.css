@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #121212;
+  --color-card: #161618;
+  --color-card-border: #2c2c2e;
+  --color-chip: #232325;
+  --color-muted: #a3a3a6;
+  --radius-card: .75rem;
+}
+
+body {
+  background: var(--color-ink);
+  color: #f4f4f5;
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+.scrollbar-none { scrollbar-width: none; }
+
+:focus-visible {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 3px;
+}

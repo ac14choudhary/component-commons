@@ -1,0 +1,46 @@
+.host { position: relative; }
+
+.layer {
+  position: absolute;
+  z-index: var(--pointer-border-z-index, 1);
+  inset: -1px;
+  overflow: hidden;
+  border-radius: inherit;
+  padding: var(--pointer-border-width, 1px);
+  background: var(--pointer-border-wash, transparent);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: var(--pointer-border-opacity, 0);
+  pointer-events: none;
+  transition: opacity var(--pointer-border-fade, 170ms) ease;
+}
+
+.layer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--pointer-border-spot-width, 320px);
+  height: var(--pointer-border-spot-height, 300px);
+  background: var(--pointer-border-gradient, radial-gradient(ellipse, #c5b3ff 0%, #9a7aff 28%, #765cfc99 46%, transparent 70%));
+  transform: translate3d(
+    calc(var(--pointer-border-x, var(--pointer-border-rest-x, 0px)) - 50%),
+    calc(var(--pointer-border-y, var(--pointer-border-rest-y, 0px)) - 50%),
+    0
+  );
+  transition: transform var(--pointer-border-follow, 120ms) var(--pointer-border-ease, ease-out);
+}
+
+.host[data-pointer] > .layer { --pointer-border-opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .host > .layer { display: none; }
+  .layer, .layer::before { transition: none; }
+  .layer::before {
+    transform: translate3d(
+      calc(var(--pointer-border-rest-x, 0px) - 50%),
+      calc(var(--pointer-border-rest-y, 0px) - 50%),
+      0
+    );
+  }
+}
